@@ -2,6 +2,9 @@
 
 A high-performance, fully-typed spend analytics dashboard inspired by modern fintech tools like Ramp, built with React 18, TypeScript, and a focus on performance optimization and developer experience.
 
+## Live Demo
+[https://vercel.com/ajgits-projects/spend-dashboard-tjn6]
+
 ## Screenshot
 
 ![SpendOS Dashboard](https://via.placeholder.com/1200x700?text=SpendOS+Dashboard+Screenshot)
