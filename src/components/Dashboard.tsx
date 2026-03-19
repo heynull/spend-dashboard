@@ -10,7 +10,6 @@ import { TransactionFilters } from './TransactionFilters';
 import { TransactionTable } from './TransactionTable';
 import { ComingSoon } from './ComingSoon';
 import {
-  DashboardSkeleton,
   SummaryCardsSkeleton,
   SpendBreakdownChartSkeleton,
   TransactionTableSkeleton,
@@ -41,31 +40,27 @@ export const Dashboard: React.FC = () => {
   } = useTransactions();
 
   const {
-    data: summary,
     isLoading: isLoadingSummary,
     error: summaryError,
   } = useSummary();
 
   const {
-    data: categoryBreakdown = [],
     isLoading: isLoadingCategoryBreakdown,
     error: categoryBreakdownError,
   } = useCategoryBreakdown();
 
   // Filter hook
   const {
-    filteredTransactions: filtereredByFilters,
     filters,
     setFilters,
     toggleCategory,
     toggleStatus,
     clearFilters,
-    hasActiveFilters,
     activeFilterCount,
   } = useTransactionFilters(transactions);
 
   // Compute filtered transactions by date range with useMemo
-  const { filteredByDateRange, previousPeriodTransactions, dateRangeFilteredSummary, dateFilteredCategoryBreakdown } = useMemo(() => {
+  const { filteredByDateRange, dateRangeFilteredSummary, dateFilteredCategoryBreakdown } = useMemo(() => {
     const byDateRange = filterTransactionsByDateRange(transactions, selectedDateRange);
     const previousPeriod = getTransactionsFromPreviousPeriod(transactions, selectedDateRange);
     
@@ -74,9 +69,9 @@ export const Dashboard: React.FC = () => {
       const categoryMatch = filters.selectedCategories.length === 0 || filters.selectedCategories.includes(txn.category);
       const statusMatch = filters.selectedStatuses.length === 0 || filters.selectedStatuses.includes(txn.status);
       const searchMatch = 
-        !filters.searchTerm ||
-        txn.merchant.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        txn.cardholderName.toLowerCase().includes(filters.searchTerm.toLowerCase());
+        !filters.searchText ||
+        txn.merchant.toLowerCase().includes(filters.searchText.toLowerCase()) ||
+        txn.cardholderName.toLowerCase().includes(filters.searchText.toLowerCase());
       return categoryMatch && statusMatch && searchMatch;
     });
 
@@ -88,7 +83,6 @@ export const Dashboard: React.FC = () => {
     
     return {
       filteredByDateRange: finalFiltered,
-      previousPeriodTransactions: previousPeriod,
       dateRangeFilteredSummary: summary,
       dateFilteredCategoryBreakdown: categoryBreakdown,
     };

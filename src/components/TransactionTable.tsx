@@ -1,5 +1,5 @@
 import React, { useReducer, useMemo, useCallback } from 'react';
-import type { Transaction, Status, Category } from '../types/index';
+import type { Transaction, Status } from '../types/index';
 
 /**
  * Example usage with filtering:

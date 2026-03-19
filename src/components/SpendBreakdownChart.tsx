@@ -3,7 +3,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend,
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
@@ -48,10 +47,9 @@ function formatCurrency(cents: number): string {
 /**
  * Custom tooltip component for the pie chart
  */
-const CustomTooltip = ({ active, payload, label }: { 
+const CustomTooltip = ({ active, payload }: { 
   active?: boolean; 
   payload?: Array<{ name: string; value: number; payload: CategoryBreakdown }>;
-  label?: string;
 }) => {
   if (!active || !payload?.length) return null;
   
@@ -69,36 +67,6 @@ const CustomTooltip = ({ active, payload, label }: {
 };
 
 /**
- * Custom legend renderer that shows category, amount, and percentage
- */
-const CustomLegend: React.FC<{ payload?: Array<{ value: string; color: string }> }> = ({
-  payload,
-}) => {
-  if (!payload || payload.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="flex flex-col gap-2">
-      {payload.map((entry, index) => {
-        // Find the corresponding data entry
-        const categoryName = entry.value as Category;
-
-        return (
-          <div key={index} className="flex items-center gap-2 text-xs">
-            <div
-              className="w-3 h-3 rounded-full flex-shrink-0"
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="text-gray-700 font-medium">{categoryName}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-/**
  * Renders legend with detailed information (amount and percentage)
  * This is a separate component to show alongside the chart
  */
@@ -107,8 +75,6 @@ interface DetailedLegendProps {
 }
 
 const DetailedLegend: React.FC<DetailedLegendProps> = ({ data }) => {
-  const totalSpend = data.reduce((sum, item) => sum + item.amount, 0);
-
   return (
     <div className="flex flex-col gap-3">
       {data.map((item) => (
@@ -186,7 +152,7 @@ export const SpendBreakdownChart: React.FC<SpendBreakdownChartProps> = ({ data }
                 paddingAngle={2}
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
+                {chartData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={colors[index]} />
                 ))}
               </Pie>

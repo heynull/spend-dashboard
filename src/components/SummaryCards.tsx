@@ -32,7 +32,7 @@ interface TrendIndicatorProps {
   hasInsufficientPriorData?: boolean;
 }
 
-const TrendIndicator: React.FC<TrendIndicatorProps> = ({ percentChange, hasInsufficientPriorData }) => {
+const TrendIndicator: React.FC<TrendIndicatorProps> = ({ percentChange }) => {
   const isNegative = percentChange < 0;
   const isPositive = percentChange > 0;
   
